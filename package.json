@@ -1,0 +1,23 @@
+{
+  "name": "d3-library",
+  "version": "1.0.0",
+  "description": "Library of basic d3 implementations",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calebkress/d3-library.git"
+  },
+  "author": "Caleb Kress",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calebkress/d3-library/issues"
+  },
+  "homepage": "https://github.com/calebkress/d3-library#readme",
+  "dependencies": {
+    "d3": "^5.6.0",
+    "live-server": "^1.2.0"
+  }
+}
