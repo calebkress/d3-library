@@ -54,8 +54,8 @@
     .attr("class", "handle")
     .attr("cx", lineWidth / 2)
     .attr("r", radius)
-    .call(d3.drag()
-      .on("start drag", function() { handleMainSlide(mainScale.invert(d3.event.x)) } ))
+    // .call(d3.drag()
+    //   .on("start drag", function() { handleMainSlide(mainScale.invert(d3.event.x)) } ))
 
   // enter + append percentage slider
   var percentageSlider = svg.append("g")
@@ -93,9 +93,9 @@
       .on("start drag", function() { handleTargetSlide(targetScale.invert(d3.event.x)) } ))
 
   // handler functions
-  function handleMainSlide(d) {
-    mainHandle.attr("cx", mainScale(d))
-  }
+  // function handleMainSlide(d) {
+  //   mainHandle.attr("cx", mainScale(d))
+  // }
 
   function handlePercentageSlide(d) {
     percentageHandle.attr("cx", percentageScale(d))
