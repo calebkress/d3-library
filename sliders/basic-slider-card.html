@@ -9,8 +9,8 @@
       stroke-linecap: round;
     }
     .summaryFigure {
-      stroke: grey;
-      stroke-width: 1px;
+      stroke: lightgrey;
+      stroke-width: 2px;
     }
     .slideLine.interactive {
       stroke: blue;
@@ -25,10 +25,7 @@
     .handle.interactive {
       fill: white;
       stroke: black;
-      /* stroke-width: 2px; */
     }
-
-
   </style>
 </head>
 
@@ -66,6 +63,7 @@
   svg.append("text")
     .attr("transform", "translate(20, " + ((height * .8) - 20) + ")")
     .text("Value Target")
+
   // declare line scales
   var mainScale = d3.scaleLinear()
     .domain([0, 120])
@@ -98,8 +96,6 @@
     .attr("x2", lineWidth * (5 / 12))
     .attr("y1", -10)
     .attr("y2", 15)
-    // .call(d3.drag()
-    //   .on("start drag", function() { handleMainSlide(mainScale.invert(d3.event.x)) } ))
 
   // enter + append percentage slider
   var percentageSlider = svg.append("g")
@@ -128,7 +124,6 @@
     .attr("x1", targetScale.range()[0])
   	.attr("x2", targetScale.range()[1])
 
-
   var targetHandle = targetSlider.insert("circle")
     .attr("class", "handle interactive")
     .attr("cx", lineWidth / 2)
@@ -153,10 +148,6 @@
 
 
   // handler functions
-  // function handleMainSlide(d) {
-  //   mainHandle.attr("cx", mainScale(d))
-  // }
-
   function handlePercentageSlide(d) {
     percentageHandle.attr("cx", percentageScale(d))
     mainHandle.attr("x1", mainScale(targetScale.invert(targetHandle.attr("cx")) *   percentageScale.invert(percentageHandle.attr("cx"))))
