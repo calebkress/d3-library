@@ -37,7 +37,7 @@
       .attr("x1", xScale.range()[0])
     	.attr("x2", xScale.range()[1])
 
-    var handle = slider.insert("circle")
+    slider.insert("circle")
     	.attr("class", "handle")
     	.attr("cx", xScale.range()[1] / 2)
     	.attr("r", 9)
@@ -45,7 +45,8 @@
       	.on("start drag", function() { handleSlide(xScale.invert(d3.event.x)) } ))
 
     function handleSlide(d) {
-      handle.attr("cx", xScale(d))
+      d3.selectAll(circle)
+        .attr("cx", xScale(d))
     }
 
   </script>
