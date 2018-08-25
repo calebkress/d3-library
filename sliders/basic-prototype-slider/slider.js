@@ -1,64 +1,47 @@
 function slider()
 {
-    var margin = {top: 5, left: 15, right: 10, bottom: 5},
+    var margin = {top: 5, left: 10, right: 10, bottom: 5},
         width  = 300 - margin.left - margin.right,
         height = 40  - margin.top  - margin.bottom,
-        brush  = d3.svg.brush(),
-        handle, slider,
-        value  = 0,
-        upd    = function(d){value = d;},
-        cback  = function(d){};
+        handle, slider
 
-    var x = d3.scale.linear()
+    var x = d3.scaleLinear()
         .domain([0, 1])
         .range ([0, width])
         .clamp(true);
 
     function chart(el)
     {
-
-        brush.x(x).extent([0,0])
-             .on("brush", brushed);
-
         var svg = el.attr("width",  width  + margin.left + margin.right)
             .attr("height", height + margin.top  + margin.bottom)
-            .append("g").attr("transform","translate(" + margin.left + "," + margin.top + ")");
-
-        svg.append("g")
-           .attr("class","x axis")
-           // .attr("transform", "translate(0,"+height/2+")")
-           .call(d3.svg.axis().scale(x).orient("bottom"));
 
         slider = svg.append("g")
             .attr("class","slider")
-            .call(brush);
+            .attr("transform","translate(" + margin.left + "," + margin.top + ")")
 
-        slider.selectAll(".extent,.resize").remove();
-        slider.select(".background").attr("height",height)
+        line = slider.append("line")
+          .attr("class", "slideLine")
+          .attr("x1", x.range()[0])
+        	.attr("x2", x.range()[1])
+        	.attr("y1", height / 2)
+        	.attr("y2", height / 2)
 
-        handle = slider.append("circle")
-            .attr("class","handle")
-            .attr("transform", "translate(0,"+height/2+")")
-            .attr("cx",x(value))
-            .attr("r",9);
+        slider.append("circle")
+        	.attr("class", "handle " + el.attr("id"))
+        	.attr("cx", x.range()[1] / 2)
+        	.attr("cy", height / 2)
+        	.attr("r", 9)
+          .call(d3.drag()
+          	.on("start drag", function() {
+              handleSlide(x.invert(d3.event.x), el)
+            } ))
 
-        function brushed()
-        {
-            if (d3.event.sourceEvent) value = x.invert(d3.mouse(this)[0]);
-            upd(value);
-            cback();
-        }
-        upd = function(v)
-        {
-            brush.extent([v,v]);
-            value = brush.extent()[0];
-            handle.attr("cx",x(value));
+        function handleSlide(d, el) {
+          console.log(d)
+          d3.select(".handle")
+            .attr("cx", x(d))
         }
     }
-
-    chart.margin   = function(_) { if (!arguments.length) return margin;  margin = _; return chart; };
-    chart.callback = function(_) { if (!arguments.length) return cback;    cback = _; return chart; };
-    chart.value    = function(_) { if (!arguments.length) return value;       upd(_); return chart; };
 
     return chart;
 }
